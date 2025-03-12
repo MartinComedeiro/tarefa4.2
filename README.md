@@ -20,3 +20,6 @@ php bin/console doctrine:migrations:migrate
 
 
 php bin/console make:security:form-login
+
+composer require symfonycasts/verify-email-bundle
+php bin/console make:registration-form
