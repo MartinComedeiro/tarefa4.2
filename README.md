@@ -7,7 +7,6 @@ php bin/console doctrine:database:create
 Crear controller:
 php bin/console make:controller
 
-
 Descargar security:
 composer require symfony/security-bundle
 
@@ -18,12 +17,12 @@ Migrar DB:
 php bin/console make:migration
 php bin/console doctrine:migrations:migrate
 
-
+Hacer el login:
 php bin/console make:security:form-login
 
+Hacer el register:
 composer require symfonycasts/verify-email-bundle
 php bin/console make:registration-form
-
 
 Para redirigir el login encontré esto en las preguntas frecuentes de la documentacion:
 https://symfony.com/doc/current/security/form_login.html
