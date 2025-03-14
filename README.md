@@ -1,3 +1,6 @@
+Crear un nuevo proyecto:
+composer create-project symfony/skeleton:"7.2.x" nombre_del_proyecto
+
 Instalar dependencias:
 composer install
 
