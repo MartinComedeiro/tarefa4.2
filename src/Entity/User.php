@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -32,6 +34,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    /**
+     * @var Collection<int, Coche>
+     */
+    #[ORM\OneToMany(targetEntity: Coche::class, mappedBy: 'user')]
+    private Collection $coches;
+
+    public function __construct()
+    {
+        $this->coches = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -106,5 +119,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Coche>
+     */
+    public function getCoches(): Collection
+    {
+        return $this->coches;
+    }
+
+    public function addCoch(Coche $coch): static
+    {
+        if (!$this->coches->contains($coch)) {
+            $this->coches->add($coch);
+            $coch->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCoch(Coche $coch): static
+    {
+        if ($this->coches->removeElement($coch)) {
+            // set the owning side to null (unless already changed)
+            if ($coch->getUser() === $this) {
+                $coch->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
