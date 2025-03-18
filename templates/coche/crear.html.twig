@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+	<div class="container-fluid w-75">
+		<h1>Hello
+			{{ controller_name }}! ✅</h1>
+
+		{% if app.flashes("userNull") is defined %}
+			{% for message in app.flashes("userNull") %}
+				<div class="flash-notice">
+					{{message}}
+				</div>
+			{% endfor %}
+			{% else %}
+
+		{% endif %}
+
+	</div>
+{% endblock %}

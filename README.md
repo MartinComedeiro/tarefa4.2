@@ -29,3 +29,7 @@ php bin/console make:registration-form
 
 Para redirigir el login encontré esto en las preguntas frecuentes de la documentacion:
 https://symfony.com/doc/current/security/form_login.html
+
+
+Para ver si el user esta logueado:
+https://symfony.com/doc/current/security.html#fetching-the-user-object
