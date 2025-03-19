@@ -6,28 +6,39 @@
 		<h1>Hello
 			{{ controller_name }}! ✅</h1>
 
-		{% if app.flashes("userNull") is defined %}
-			{% for message in app.flashes("userNull") %}
+			{% for message in app.flashes("notice") %}
 				<div class="flash-notice">
 					{{message}}
 				</div>
 			{% endfor %}
-		{% else %}
-			<form action="{{action}}" method="POST">
-				<div class="mb-3">
-					<label for="titulo" class="form-label">Título</label>
-					<input type="text" class="form-control" id="titulo" name="titulo" value="{{nota.titulo}}">
-
+			
+			{% for message in app.flashes("success") %}
+				<div class="flash-notice">
+					{{message}}
 				</div>
+			{% endfor %}
 
-				<div class="mb-3">
-					<label for="desc" class="form-label">Descripción</label>
-					<input type="text" class="form-control" id="desc" name="desc" value="{{nota.descripcion}}">
+		
+		<form action="{{path('app_coche_crear')}}" method="POST">
+			<div class="my-3">
+				<label for="marca" class="form-label">Marca</label>
+				<input type="text" class="form-control" id="marca" name="marca">
 
-				</div>
-				<button type="submit" class="btn btn-primary">Guardar</button>
-			</form>
-		{% endif %}
+			</div>
 
+			<div class="my-3">
+				<label for="km" class="form-label">Kilómetros recorridos</label>
+				<input type="number" class="form-control" id="km" name="km">
+
+			</div>
+
+			<div class="my-3">
+				<label for="segundaMano" class="form-label">Segunda Mano</label>
+				<input type="checkbox" name="segundaMano" id="segundaMano">
+			</div>
+			
+			<button type="submit" class="btn btn-primary">Guardar</button>
+		</form>
+		
 	</div>
 {% endblock %}

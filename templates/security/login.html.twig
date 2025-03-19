@@ -9,6 +9,12 @@
 			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 		{% endif %}
 
+		{% for message in app.flashes("userNull") %}
+			<div class="flash-notice">
+				{{message}}
+			</div>
+		{% endfor %}
+
 		{% if app.user %}
 			<div class="mb-3">
 				You are logged in as
@@ -26,17 +32,17 @@
 		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
 		{# If you want to control the URL the user is redirected to on success
-		        <input type="hidden" name="_target_path" value="/account"> #}
+				        <input type="hidden" name="_target_path" value="/account"> #}
 
 		{#
-		            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-		            See https://symfony.com/doc/current/security/remember_me.html
-		
-		            <div class="checkbox mb-3">
-		                <input type="checkbox" name="_remember_me" id="_remember_me">
-		                <label for="_remember_me">Remember me</label>
-		            </div>
-		        #}
+				            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+				            See https://symfony.com/doc/current/security/remember_me.html
+				
+				            <div class="checkbox mb-3">
+				                <input type="checkbox" name="_remember_me" id="_remember_me">
+				                <label for="_remember_me">Remember me</label>
+				            </div>
+				        #}
 
 			<button class="btn btn-lg btn-primary" type="submit"> Sign in
 		</button>

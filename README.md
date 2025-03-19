@@ -33,3 +33,7 @@ https://symfony.com/doc/current/security/form_login.html
 
 Para ver si el user esta logueado:
 https://symfony.com/doc/current/security.html#fetching-the-user-object
+
+
+Para añadir bootstrap:
+php bin/console importmap:require bootstrap
