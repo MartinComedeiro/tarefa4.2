@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\CocheRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\PositiveOrZero;
 
 #[ORM\Entity(repositoryClass: CocheRepository::class)]
 class Coche
@@ -14,9 +16,17 @@ class Coche
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        min: 1,
+        max: 255,
+        minMessage: 'Your marca must be at least {{ limit }} characters long',
+        maxMessage: 'Your marca name cannot be longer than {{ limit }} characters')]
     private ?string $marca = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\PositiveOrZero(
+        message: "Los km no puden ser negativos"
+    )]
     private ?int $km = null;
 
     #[ORM\Column(nullable: true)]

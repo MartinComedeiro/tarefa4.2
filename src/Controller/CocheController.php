@@ -29,27 +29,35 @@ final class CocheController extends AbstractController
             $coche = new Coche();
 
             if ($request->getMethod() === "POST") {
-                $marca = $request->request->get("marca", "");
-                $km = $request->request->get("km", null);
-                $segundaMano = $request->request->get("segundaMano", "");
+                try {
+                    $marca = $request->request->get("marca", "");
+                    $km = $request->request->get("km", 0);
+                    $segundaMano = $request->request->get("segundaMano", "");
 
-                $coche->setMarca($marca);
-                $coche->setKm($km);
-                $coche->setSegundaMano($segundaMano);
-                $coche->setUser($user);
+                    $coche->setMarca($marca);
+                    $coche->setKm($km);
+                    $coche->setSegundaMano($segundaMano);
+                    $coche->setUser($user);
 
-                $errores = $validator->validate($coche);
+                    $errores = $validator->validate($coche);
 
-                if (count($errores) > 0) {
-                    foreach ($errores as $error) {
-                        $this->addFlash("warning", $error->getMessage());
+                    if (count($errores) > 0) {
+                        foreach ($errores as $error) {
+                            $this->addFlash("notice", $error->getMessage());
+                        }
+                        return $this->render("coche/crear.html.twig", ["controller_name" => "CocheController", "coche" => $coche]);
+                    } else {
+                        $cocheService->create($coche);
+                        $this->addFlash("success", "Nota guardada correctamente");
+                        return $this->redirectToRoute("app_coche_crear");
                     }
-                    return $this->render("coche/crear.html.twig", ["coche" => $coche]);
-                } else {
-                    $cocheService->create($coche);
-                    $this->addFlash("success", "Nota guardada correctamente");
-                    return $this->redirectToRoute("app_coche_crear");
+                } catch (\Throwable $th) {
+                    $this->addFlash("notice", "Hubo un error");
+                    return $this->render("coche/crear.html.twig", [
+                        "controller_name" => "CocheController",
+                    ]);
                 }
+
 
             } else {
                 return $this->render("coche/crear.html.twig", [
