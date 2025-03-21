@@ -19,8 +19,8 @@ class Coche
     #[Assert\Length(
         min: 1,
         max: 255,
-        minMessage: 'Your marca must be at least {{ limit }} characters long',
-        maxMessage: 'Your marca name cannot be longer than {{ limit }} characters')]
+        minMessage: 'Tu marca debe tener al menos {{ limit }} caracteres',
+        maxMessage: 'Tu marca no puede tener más de {{ limit }} caracteres')]
     private ?string $marca = null;
 
     #[ORM\Column(nullable: true)]
