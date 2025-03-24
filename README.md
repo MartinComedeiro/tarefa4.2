@@ -37,3 +37,8 @@ https://symfony.com/doc/current/security.html#fetching-the-user-object
 
 Para añadir bootstrap:
 php bin/console importmap:require bootstrap
+
+
+Validaciones(coche):
+marca->length
+km->PositiveOrZero
