@@ -46,3 +46,5 @@ km->PositiveOrZero
 Ordenado por:
 marca->asc
 km->asc
+
+Si hay algun problema con el server, con añadir o quitar un espacio en el twig se soluciona
