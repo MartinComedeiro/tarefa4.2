@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+	<div class="container-fluid w-75">
+		<h1>Hello
+			{{ controller_name }}! ✅</h1>
+
+		{% for message in app.flashes("notice") %}
+			<div class="flash-notice">
+				{{message}}
+			</div>
+		{% endfor %}
+
+		{% for message in app.flashes("success") %}
+			<div class="flash-notice">
+				{{message}}
+			</div>
+		{% endfor %}
+
+		{% if coches is defined %}
+
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Marca</th>
+						<th>KM</th>
+						<th>Segunda Mano</th>
+						<th>ID User</th>
+						<th>Eliminar</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					{% for coche in coches %}
+						<tr>
+							<th>{{ coche.marca }}</th>
+							<th>{{ coche.km }}</th>
+
+							{% if coche.segundaMano == 1 %}
+								<th>Sí</th>
+							{% else %}
+								<th>No</th>
+							{% endif %}
+
+							<th>{{ coche.user.id }}</th>
+
+							<th>
+								<form action="/coche/eliminar" method="post">
+									<input type="hidden" name="id" value={{coche.id}}>
+									<input type="submit" value="Eliminar">
+								</form>
+							</th>
+						</tr>
+					{% endfor %}
+				</tbody>
+
+			</table>
+
+		{% endif %}
+
+	</div>
+{% endblock %}

@@ -9,15 +9,56 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Throwable;
 
 final class CocheController extends AbstractController
 {
     #[Route('/coche', name: 'app_coche')]
-    public function index(): Response
+    public function index(CocheService $cocheService): Response
     {
-        return $this->render('coche/index.html.twig', [
-            'controller_name' => 'CocheController',
-        ]);
+        $user = $this->getUser();
+
+        if ($user != null) {
+            try {
+                $coches = $cocheService->list($user);
+            }catch(Throwable $e){
+                $this->addFlash("notice", "hubo un error " . $e->getMessage());
+                return $this->render("coche/listar.html.twig", [
+                    "controller_name" => "CocheController",
+                ]);
+            }
+            return $this->render("coche/listar.html.twig", [
+                "controller_name" => "CocheController",
+                "coches" => $coches
+            ]);
+
+
+        } else {
+            $this->addFlash("userNull", "Tienes que loguearte antes de crear un coche");
+            return $this->redirectToRoute("app_login");
+        }
+    }
+
+    #[Route('/coche/eliminar', name: 'app_coche_eliminar')]
+    public function eliminarCoche(Request $request, CocheService $cocheService): Response
+    {
+        $user = $this->getUser();
+
+        if ($user != null) {
+            $id = $request->request->get("id", null);
+            try {
+                $cocheService->eliminarCoche($id, $user->getUserIdentifier());
+            }catch(Throwable $e){
+                $this->addFlash("danger", "hubo un error |" . $e->getMessage());
+                
+            }
+            $this->addFlash("success", "Coche ha sido eliminado");
+            return $this->redirectToRoute("app_coche"); 
+
+        } else {
+            $this->addFlash("userNull", "Tienes que loguearte antes de eliminar un coche");
+            return $this->redirectToRoute("app_login");
+        }
     }
 
     #[Route('/coche/crear', name: 'app_coche_crear')]
@@ -51,7 +92,7 @@ final class CocheController extends AbstractController
                         $this->addFlash("success", "Nota guardada correctamente");
                         return $this->redirectToRoute("app_coche_crear");
                     }
-                } catch (\Throwable $th) {
+                } catch (Throwable $th) {
                     $this->addFlash("notice", "Hubo un error");
                     return $this->render("coche/crear.html.twig", [
                         "controller_name" => "CocheController",

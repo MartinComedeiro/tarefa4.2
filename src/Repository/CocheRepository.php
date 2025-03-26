@@ -16,6 +16,13 @@ class CocheRepository extends ServiceEntityRepository
         parent::__construct($registry, Coche::class);
     }
 
+    public function listar($user): array
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT c FROM App\Entity\Coche c JOIN c.user u WHERE u.email = :email ORDER by c.marca asc, c.km asc");
+        return $query->setParameter("email", $user->getUserIdentifier())->getResult();
+    }
+
     //    /**
     //     * @return Coche[] Returns an array of Coche objects
     //     */
